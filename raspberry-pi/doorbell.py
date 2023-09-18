@@ -3,9 +3,11 @@ import sys
 import time
 
 import cv2
+import requests
 from tflite_support.task import audio, core, processor
 from tflite_support.task import vision
 
+import secrets
 import utils
 
 
@@ -138,6 +140,7 @@ def doorbell(args) -> None:
         # print("noise: ", noise)
         if noise == 'cat' and cat_image_detected():
             print("Cat heard and seen")
+            requests.post(secrets.REST_API_URL, headers={'content-type': 'application/json'})
             time.sleep(120)
 
 
