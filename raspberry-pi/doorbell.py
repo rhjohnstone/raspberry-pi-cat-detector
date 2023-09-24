@@ -3,7 +3,10 @@ import os
 import sys
 import time
 
+import RPi.GPIO as GPIO
+import board
 import cv2
+import neopixel
 import requests
 from tflite_support.task import audio, core, processor
 from tflite_support.task import vision
@@ -13,10 +16,22 @@ import utils
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
+# How many pixels are in the WS2812b strip?
+MAX_PIXELS = 4
 
-def cat_image_detected(timeout=30) -> bool:
+# What GPIO pin is associated with a condition?
+DARK_INDICATOR_PIN = 2  # Physical pin 3
+
+# Use the board internal definition for this
+LED_STRIP_OUTPUT_PIN = board.D18  # Physical pin 12
+
+# Pixel color values
+ON = (255, 255, 255)  # White
+OFF = (0, 0, 0)
+
+
+def cat_image_detected(model, timeout=30) -> bool:
     timeout_start = time.time()
-    model = CURRENT_DIR + '/' + 'efficientdet_lite0.tflite'
     camera_id = 0
     width = 640
     height = 480
@@ -103,11 +118,21 @@ def cat_image_detected(timeout=30) -> bool:
 def doorbell(args) -> None:
     # Tensorflow setup
     model = CURRENT_DIR + '/' + str(args.model)
+    video_model = CURRENT_DIR + '/' + str(args.videoModel)
+    detection_pause = int(args.pauseAfterDetection)
     max_results = int(args.maxResults)
     score_threshold = float(args.scoreThreshold)
     overlapping_factor = float(args.overlappingFactor)
     num_threads = int(args.numThreads)
     enable_edgetpu = False
+
+    # Set up the pixels for nighttime
+    pixels = neopixel.NeoPixel(LED_STRIP_OUTPUT_PIN, MAX_PIXELS)
+    GPIO.setwarnings(False)
+    # Refer to pins by their Broadcom numbers
+    GPIO.setmode(GPIO.BCM)
+    # Configure the light sensor
+    GPIO.setup(DARK_INDICATOR_PIN, GPIO.IN)
 
     base_options = core.BaseOptions(file_name=model, use_coral=enable_edgetpu, num_threads=num_threads)
     classification_options = processor.ClassificationOptions(max_results=max_results, score_threshold=score_threshold)
@@ -126,6 +151,9 @@ def doorbell(args) -> None:
     audio_record.start_recording()
 
     while True:
+        if GPIO.input(DARK_INDICATOR_PIN):
+            pixels.fill(OFF)
+
         now = time.time()
         diff = now - last_inference_time
         if diff < interval_between_inference:
@@ -141,17 +169,23 @@ def doorbell(args) -> None:
         label_list = [category.category_name for category in classification.categories]
         noise = str(label_list[0]).lower()
         # print("noise: ", noise)
-        if noise == 'cat' and cat_image_detected():
-            print("Cat heard and seen")
-            requests.post(my_secrets.REST_API_URL, headers={'content-type': 'application/json'})
-            time.sleep(120)
+        if noise == 'cat':
+            if GPIO.input(DARK_INDICATOR_PIN):
+                pixels.fill(ON)
+            if cat_image_detected(video_model):
+                print("Cat heard and seen")
+                requests.post(my_secrets.REST_API_URL, headers={'content-type': 'application/json'})
+                time.sleep(detection_pause)
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     # Tensorflow Parameters
+    parser.add_argument('--videoModel',
+                        help='Name of the video classification model.',
+                        required=False,
+                        default='efficientdet_lite0.tflite')
     parser.add_argument('--model',
                         help='Name of the audio classification model.',
                         required=False,
@@ -172,6 +206,10 @@ def main():
                         help='Number of CPU threads to run the model.',
                         required=False,
                         default=4)
+    parser.add_argument('--pauseAfterDetection',
+                        help='Number of seconds to pause after a positive result.',
+                        required=False,
+                        default=120)
     args = parser.parse_args()
     doorbell(args)
 
