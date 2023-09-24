@@ -1,4 +1,5 @@
 import argparse
+import os
 import sys
 import time
 
@@ -10,10 +11,12 @@ from tflite_support.task import vision
 import my_secrets
 import utils
 
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 
 def cat_image_detected(timeout=30) -> bool:
     timeout_start = time.time()
-    model = 'efficientdet_lite0.tflite'
+    model = CURRENT_DIR + '/' + 'efficientdet_lite0.tflite'
     camera_id = 0
     width = 640
     height = 480
@@ -99,7 +102,7 @@ def cat_image_detected(timeout=30) -> bool:
 
 def doorbell(args) -> None:
     # Tensorflow setup
-    model = str(args.model)
+    model = CURRENT_DIR + '/' + str(args.model)
     max_results = int(args.maxResults)
     score_threshold = float(args.scoreThreshold)
     overlapping_factor = float(args.overlappingFactor)
