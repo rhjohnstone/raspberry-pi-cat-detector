@@ -197,6 +197,8 @@ def doorbell(args) -> None:
     audio_record.start_recording()
 
     while True:
+        #
+        # If at night, turn lights off until needed
         if GPIO.input(DARK_INDICATOR_PIN):
             pixels.fill(OFF)
 
@@ -216,10 +218,16 @@ def doorbell(args) -> None:
         noise = str(label_list[0]).lower()
         # print("noise: ", noise)
         if noise == 'cat':
+            #
+            # If It's dark, turn lights on so the camera can 'see' the cat
             if GPIO.input(DARK_INDICATOR_PIN):
                 pixels.fill(ON)
+            #
+            # Now that we heard the cat, can we see it?
             if cat_image_detected(video_model):
                 print("Cat heard and seen")
+                #
+                # Trigger a text message
                 requests.post(my_secrets.REST_API_URL, headers={'content-type': 'application/json'})
                 time.sleep(detection_pause)
 
