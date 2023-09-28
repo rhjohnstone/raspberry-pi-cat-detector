@@ -1,7 +1,9 @@
 import argparse
 import os
+import socket
 import sys
 import time
+import traceback
 
 import RPi.GPIO as GPIO
 import board
@@ -306,4 +308,11 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception:
+        print("C R A S H")
+        traceback.print_exc()
+        requests.post(my_secrets.REST_CRASH_NOTIFY_URL,
+                      data=socket.gethostname(),
+                      headers={'content-type': 'application/json'})
