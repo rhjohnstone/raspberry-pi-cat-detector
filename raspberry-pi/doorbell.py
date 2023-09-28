@@ -208,8 +208,7 @@ def doorbell(args) -> None:
     while True:
         #
         # Turn lights off until needed
-        if GPIO.input(DARK_INDICATOR_PIN):
-            pixels.fill(OFF)
+        pixels.fill(OFF)
 
         now = time.time()
         diff = now - last_inference_time
