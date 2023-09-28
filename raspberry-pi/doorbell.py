@@ -204,12 +204,11 @@ def doorbell(args) -> None:
     last_inference_time = time.time()
 
     audio_record.start_recording()
+    #
+    # Turn lights off until needed
+    pixels.fill(OFF)
 
     while True:
-        #
-        # Turn lights off until needed
-        pixels.fill(OFF)
-
         now = time.time()
         diff = now - last_inference_time
         if diff < interval_between_inference:
@@ -238,6 +237,9 @@ def doorbell(args) -> None:
                 # Trigger a text message
                 requests.post(my_secrets.REST_API_URL, headers={'content-type': 'application/json'})
                 time.sleep(detection_pause)
+
+                if GPIO.input(DARK_INDICATOR_PIN):
+                    pixels.fill(OFF)
 
 
 def main():
