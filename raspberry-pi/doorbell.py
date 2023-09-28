@@ -83,7 +83,7 @@ def visualize(image: np.ndarray, detection_result: processor.DetectionResult) ->
     return image
 
 
-def cat_image_detected(model, timeout=30) -> bool:
+def image_detected(model, timeout=45, search_for='cat') -> bool:
     timeout_start = time.time()
     camera_id = 0
     width = 640
@@ -137,7 +137,7 @@ def cat_image_detected(model, timeout=30) -> bool:
         category = get_category_name(detection_result)
 
         print(f'{category}')
-        if category == 'cat':
+        if category == search_for:
             found = True
             break
 
@@ -207,7 +207,7 @@ def doorbell(args) -> None:
 
     while True:
         #
-        # If at night, turn lights off until needed
+        # Turn lights off until needed
         if GPIO.input(DARK_INDICATOR_PIN):
             pixels.fill(OFF)
 
@@ -233,7 +233,7 @@ def doorbell(args) -> None:
                 pixels.fill(ON)
             #
             # Now that we heard the cat, can we see it?
-            if cat_image_detected(video_model):
+            if image_detected(video_model):
                 print("Cat heard and seen")
                 #
                 # Trigger a text message
