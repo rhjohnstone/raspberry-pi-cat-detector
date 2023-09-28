@@ -26,7 +26,6 @@ GPIO.setmode(GPIO.BCM)
 # Configure the light sensor
 GPIO.setup(DARK_INDICATOR_PIN, GPIO.IN)
 
-pixels.fill(OFF)
 while True:
     try:
         if GPIO.input(DARK_INDICATOR_PIN):
