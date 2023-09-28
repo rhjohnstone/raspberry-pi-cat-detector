@@ -1,6 +1,5 @@
 import argparse
 import os
-import socket
 import sys
 import time
 
@@ -307,10 +306,4 @@ def main():
 
 
 if __name__ == '__main__':
-    try:
-        main()
-    except Exception as exc:
-        print(f"C R A S H\n{exc}")
-        requests.post(my_secrets.REST_CRASH_NOTIFY_URL,
-                      data=socket.gethostname(),
-                      headers={'content-type': 'application/json'})
+    main()
