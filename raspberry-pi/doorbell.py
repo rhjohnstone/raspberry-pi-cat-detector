@@ -22,7 +22,7 @@ MAX_PIXELS = 4
 DARK_INDICATOR_PIN = 2  # Physical pin 3
 
 # Use the board internal definition for this
-LED_STRIP_OUTPUT_PIN = board.D18  # Physical pin 12
+LED_STRIP_OUTPUT_PIN = board.D10  # Physical pin 19
 
 # Pixel color values
 ON = (255, 255, 255)  # White
@@ -36,6 +36,15 @@ _TEXT_COLOR = (0, 0, 255)  # red
 
 
 def get_category_name(detection_result: processor.DetectionResult) -> str:
+    """
+    Pull a specific category name from a detection result
+
+    Args:
+        detection_result: an object identification result
+
+    Returns:
+        the category name in a single string
+    """
     category_name = None
     for detection in detection_result.detections:
         category = detection.categories[0]
