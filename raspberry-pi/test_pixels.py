@@ -12,7 +12,7 @@ MAX_PIXELS = 4
 DARK_INDICATOR_PIN = 2  # Physical pin 3
 
 # Use the board internal definition for this
-LED_STRIP_OUTPUT_PIN = board.D18  # Physical pin 12
+LED_STRIP_OUTPUT_PIN = board.D10  # Physical pin 19
 
 # Pixel color values
 ON = (255, 255, 255)  # White
