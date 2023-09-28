@@ -241,7 +241,7 @@ def listen_for(target_object, model) -> bool:
 
 
 def doorbell(args):
-    audio_model = CURRENT_DIR + '/models/' + str(args.model)
+    audio_model = CURRENT_DIR + '/models/' + str(args.audioModel)
     video_model = CURRENT_DIR + '/models/' + str(args.videoModel)
     detection_pause = int(args.pauseAfterDetection)
 
