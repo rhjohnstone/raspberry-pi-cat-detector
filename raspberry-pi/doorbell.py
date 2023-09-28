@@ -1,5 +1,6 @@
 import argparse
 import os
+import socket
 import sys
 import time
 
@@ -83,7 +84,18 @@ def visualize(image: np.ndarray, detection_result: processor.DetectionResult) ->
     return image
 
 
-def image_detected(model, timeout=45, search_for='cat') -> bool:
+def look_for(target_object, model, timeout=45) -> bool:
+    """
+    Look for a target object
+
+    Args:
+        target_object (): The thing we want to see and identify
+        model (): The model to use for identification
+        timeout (): The amount of time before we give up
+
+    Returns:
+        True if found, False if not
+    """
     timeout_start = time.time()
     camera_id = 0
     width = 640
@@ -136,8 +148,8 @@ def image_detected(model, timeout=45, search_for='cat') -> bool:
 
         category = get_category_name(detection_result)
 
-        print(f'{category}')
-        if category == search_for:
+        if category == target_object:
+            print(f'{category}')
             found = True
             break
 
@@ -170,24 +182,24 @@ def image_detected(model, timeout=45, search_for='cat') -> bool:
     return found
 
 
-def doorbell(args) -> None:
-    # Tensorflow setup
-    model = CURRENT_DIR + '/models/' + str(args.model)
-    video_model = CURRENT_DIR + '/models/' + str(args.videoModel)
-    detection_pause = int(args.pauseAfterDetection)
-    max_results = int(args.maxResults)
-    score_threshold = float(args.scoreThreshold)
-    overlapping_factor = float(args.overlappingFactor)
-    num_threads = int(args.numThreads)
-    enable_edgetpu = False
+def listen_for(target_object, model) -> bool:
+    """
+    Listen for a target object
 
-    # Set up the pixels for nighttime
-    pixels = neopixel.NeoPixel(LED_STRIP_OUTPUT_PIN, MAX_PIXELS)
-    GPIO.setwarnings(False)
-    # Refer to pins by their Broadcom numbers
-    GPIO.setmode(GPIO.BCM)
-    # Configure the light sensor
-    GPIO.setup(DARK_INDICATOR_PIN, GPIO.IN)
+    Args:
+        target_object ():  The thing we want to identify
+        model (): The model we use for identification
+
+    Returns:
+        True if found, False otherwise
+    """
+    found = False
+
+    max_results = 1
+    score_threshold = 0.0
+    overlapping_factor = 0.5
+    num_threads = 4
+    enable_edgetpu = False
 
     base_options = core.BaseOptions(file_name=model, use_coral=enable_edgetpu, num_threads=num_threads)
     classification_options = processor.ClassificationOptions(max_results=max_results, score_threshold=score_threshold)
@@ -204,9 +216,6 @@ def doorbell(args) -> None:
     last_inference_time = time.time()
 
     audio_record.start_recording()
-    #
-    # Turn lights off until needed
-    pixels.fill(OFF)
 
     while True:
         now = time.time()
@@ -224,59 +233,84 @@ def doorbell(args) -> None:
         label_list = [category.category_name for category in classification.categories]
         noise = str(label_list[0]).lower()
         # print("noise: ", noise)
-        if noise == 'cat':
+        if noise == target_object:
+            print("noise: ", noise)
+            found = True
+            break
+
+    return found
+
+
+def doorbell(args):
+    audio_model = CURRENT_DIR + '/models/' + str(args.model)
+    video_model = CURRENT_DIR + '/models/' + str(args.videoModel)
+    detection_pause = int(args.pauseAfterDetection)
+
+    pixels = neopixel.NeoPixel(LED_STRIP_OUTPUT_PIN, MAX_PIXELS)
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(DARK_INDICATOR_PIN, GPIO.IN)
+    pixels.fill(OFF)
+
+    #
+    # There is some kind of NeoPixel bug such that if you call pixel.fill(OFF)
+    # twice in a row, it will instead turn everything on. So, while this bug
+    # exists, I have to use this stupid 'lights_on' flag.
+    #
+    lights_on = False
+    pixels.fill(OFF)
+    while True:
+        is_dark = GPIO.input(DARK_INDICATOR_PIN)
+
+        if is_dark and lights_on:
+            print("Turn lights off")
+            pixels.fill(OFF)
+
+        if listen_for('cat', audio_model):
             #
             # If It's dark, turn lights on so the camera can 'see' the cat
-            if GPIO.input(DARK_INDICATOR_PIN):
+            if is_dark:
+                print("Turn lights on")
                 pixels.fill(ON)
+                lights_on = True
             #
             # Now that we heard the cat, can we see it?
-            if image_detected(video_model):
+            if look_for('cat', video_model):
                 print("Cat heard and seen")
                 #
                 # Trigger a text message
                 requests.post(my_secrets.REST_API_URL, headers={'content-type': 'application/json'})
                 time.sleep(detection_pause)
-
-                if GPIO.input(DARK_INDICATOR_PIN):
-                    pixels.fill(OFF)
+                print("Pause over. Resuming")
 
 
 def main():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    # Tensorflow Parameters
     parser.add_argument('--videoModel',
-                        help='Name of the video classification model.',
+                        help='Video classification model file.',
                         required=False,
                         default='efficientdet_lite0.tflite')
-    parser.add_argument('--model',
-                        help='Name of the audio classification model.',
+    #
+    parser.add_argument('--audioModel',
+                        help='Audio classification model file.',
                         required=False,
                         default='yamnet.tflite')
-    parser.add_argument('--maxResults',
-                        help='Maximum number of results to show.',
-                        required=False,
-                        default=1)
-    parser.add_argument('--overlappingFactor',
-                        help='Target overlapping between adjacent inferences. Value must be in (0, 1)',
-                        required=False,
-                        default=0.5)
-    parser.add_argument('--scoreThreshold',
-                        help='The score threshold of classification results.',
-                        required=False,
-                        default=0.0)
-    parser.add_argument('--numThreads',
-                        help='Number of CPU threads to run the model.',
-                        required=False,
-                        default=4)
+    #
     parser.add_argument('--pauseAfterDetection',
                         help='Number of seconds to pause after a positive result.',
                         required=False,
                         default=120)
     args = parser.parse_args()
+
     doorbell(args)
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as exc:
+        print("C R A S H")
+        requests.post(my_secrets.REST_CRASH_NOTIFY_URL,
+                      data=socket.gethostname(),
+                      headers={'content-type': 'application/json'})
