@@ -310,7 +310,7 @@ if __name__ == '__main__':
     try:
         main()
     except Exception as exc:
-        print("C R A S H")
+        print(f"C R A S H\n{exc}")
         requests.post(my_secrets.REST_CRASH_NOTIFY_URL,
                       data=socket.gethostname(),
                       headers={'content-type': 'application/json'})
