@@ -249,7 +249,7 @@ def doorbell(target_object, args):
     while True:
         is_dark = GPIO.input(DARK_INDICATOR_PIN)
 
-        if is_dark and lights_on:
+        if lights_on:
             print("Turn lights off")
             pixels.fill(OFF)
             lights_on = False
