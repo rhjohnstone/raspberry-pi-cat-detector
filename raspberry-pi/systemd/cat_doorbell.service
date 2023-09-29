@@ -1,0 +1,19 @@
+[Unit]
+Description=Cat Doorbell
+After=network.target
+StartLimitIntervalSec=150
+StartLimitBurst=3
+
+[Service]
+ExecStart=/usr/bin/python3 /home/tennis/PycharmProjects/raspberry-pi-cat-doorbell-v2/raspberry-pi/doorbell.py
+Environment="DISPLAY=:0"
+WorkingDirectory=/home/tennis/PycharmProjects/raspberry-pi-cat-doorbell-v2/raspberry-pi
+User=tennis
+Group=tennis
+
+Restart=always
+RestartSec=30
+
+
+[Install]
+WantedBy=multi-user.target
