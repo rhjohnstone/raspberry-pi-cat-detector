@@ -181,18 +181,21 @@ def look_for(target_object, model, timeout=45) -> bool:
     return found
 
 
-def listen_for(target_object, model) -> bool:
+def doorbell(target_object, args):
     """
-    Listen for a target object
+    Listen for a target object and then look for it
 
     Args:
         target_object ():  The thing we want to identify
-        model (): The model we use for identification
+        args (): The model info for audio and video sensing
 
     Returns:
-        True if found, False otherwise
+        Nothing
     """
-    found = False
+
+    audio_model = CURRENT_DIR + '/models/' + str(args.audioModel)
+    video_model = CURRENT_DIR + '/models/' + str(args.videoModel)
+    detection_pause = int(args.pauseAfterDetection)
 
     max_results = 1
     score_threshold = 0.0
@@ -200,7 +203,13 @@ def listen_for(target_object, model) -> bool:
     num_threads = 4
     enable_edgetpu = False
 
-    base_options = core.BaseOptions(file_name=model, use_coral=enable_edgetpu, num_threads=num_threads)
+    pixels = neopixel.NeoPixel(LED_STRIP_OUTPUT_PIN, MAX_PIXELS)
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(DARK_INDICATOR_PIN, GPIO.IN)
+    pixels.fill(OFF)
+
+    base_options = core.BaseOptions(file_name=audio_model, use_coral=enable_edgetpu, num_threads=num_threads)
     classification_options = processor.ClassificationOptions(max_results=max_results, score_threshold=score_threshold)
     options = audio.AudioClassifierOptions(base_options=base_options, classification_options=classification_options)
 
@@ -216,7 +225,15 @@ def listen_for(target_object, model) -> bool:
 
     audio_record.start_recording()
 
+    lights_on = False
     while True:
+        is_dark = GPIO.input(DARK_INDICATOR_PIN)
+
+        if is_dark and lights_on:
+            print("Turn lights off")
+            pixels.fill(OFF)
+            lights_on = False
+
         now = time.time()
         diff = now - last_inference_time
         if diff < interval_between_inference:
@@ -234,40 +251,8 @@ def listen_for(target_object, model) -> bool:
         # print("noise: ", noise)
         if noise == target_object:
             print("noise: ", noise)
-            found = True
-            break
-
-    return found
-
-
-def doorbell(args):
-    audio_model = CURRENT_DIR + '/models/' + str(args.audioModel)
-    video_model = CURRENT_DIR + '/models/' + str(args.videoModel)
-    detection_pause = int(args.pauseAfterDetection)
-
-    pixels = neopixel.NeoPixel(LED_STRIP_OUTPUT_PIN, MAX_PIXELS)
-    GPIO.setwarnings(False)
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(DARK_INDICATOR_PIN, GPIO.IN)
-    pixels.fill(OFF)
-
-    #
-    # There is some kind of NeoPixel bug such that if you call pixel.fill(OFF)
-    # twice in a row, it will instead turn everything on. So, while this bug
-    # exists, I have to use this stupid 'lights_on' flag.
-    #
-    lights_on = False
-    pixels.fill(OFF)
-    while True:
-        is_dark = GPIO.input(DARK_INDICATOR_PIN)
-
-        if is_dark and lights_on:
-            print("Turn lights off")
-            pixels.fill(OFF)
-
-        if listen_for('cat', audio_model):
             #
-            # If It's dark, turn lights on so the camera can 'see' the cat
+            # If it is dark, turn LEDs on so the camera can 'see' the cat
             if is_dark:
                 print("Turn lights on")
                 pixels.fill(ON)
@@ -302,7 +287,7 @@ def main():
                         default=120)
     args = parser.parse_args()
 
-    doorbell(args)
+    doorbell('cat', args)
 
 
 if __name__ == '__main__':
