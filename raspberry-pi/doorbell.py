@@ -1,7 +1,7 @@
 """
 I call this the Cat Doorbell
 
-The application first listens for a cat meowing, then looks to verify it can see cat. Once both criteria are matched,
+The application first listens for a cat meowing, then looks to verify it can see the cat. Once both criteria are met,
 it sends a notification message to me via a REST API.
 
 Why does the app need to both hear and see the cat?  It is because the cat in question sometimes likes to meow for the
