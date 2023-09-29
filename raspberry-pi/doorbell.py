@@ -1,7 +1,9 @@
 import argparse
 import os
+import socket
 import sys
 import time
+import traceback
 
 import RPi.GPIO as GPIO
 import board
@@ -27,6 +29,8 @@ LED_STRIP_OUTPUT_PIN = board.D10  # Physical pin 19
 # Pixel color values
 ON = (255, 255, 255)  # White
 OFF = (0, 0, 0)
+
+REQUEST_HEADER = {'content-type': 'application/json'}
 
 _MARGIN = 10  # pixels
 _ROW_SIZE = 10  # pixels
@@ -263,7 +267,7 @@ def doorbell(target_object, args):
                 print("Cat heard and seen")
                 #
                 # Trigger a text message
-                requests.post(my_secrets.REST_API_URL, headers={'content-type': 'application/json'})
+                requests.post(my_secrets.REST_API_URL, headers=REQUEST_HEADER)
                 time.sleep(detection_pause)
                 print("Pause over. Resuming")
 
@@ -291,4 +295,9 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception:
+        print("C R A S H")
+        traceback.print_exc()
+        requests.post(my_secrets.REST_CRASH_NOTIFY_URL, data=socket.gethostname(), headers=REQUEST_HEADER)
