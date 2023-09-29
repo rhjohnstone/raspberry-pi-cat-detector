@@ -1,3 +1,19 @@
+"""
+I call this the Cat Doorbell
+
+The application first listens for a cat meowing, then looks to verify it can see cat. Once both criteria are matched,
+it sends a notification message to me via a REST API.
+
+Why does the app need to both hear and see the cat?  It is because the cat in question sometimes likes to meow for the
+hell of it while outside.  But, if he is close to the door (and therefore the doorbell), and then starts to meow,
+it means he truly wants inside.  So, if he can be heard _and_ seen while at the door, it is the right time to alert me.
+
+This is basically a combination of 2 Tensorflow sample applications.  One application identifies an "object" by
+sound, and the other by sight.  Here is the example code for the 2 apps:
+  1. https://github.com/tensorflow/examples/blob/master/lite/examples/audio_classification/raspberry_pi/classify.py
+  2. https://github.com/tensorflow/examples/blob/master/lite/examples/image_classification/raspberry_pi/classify.py
+
+"""
 import argparse
 import os
 import socket
