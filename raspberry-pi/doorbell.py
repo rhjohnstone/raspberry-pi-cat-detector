@@ -321,6 +321,6 @@ if __name__ == '__main__':
     try:
         main()
     except Exception:
-        logger.info("C R A S H")
+        print("C R A S H")
         traceback.logger.info_exc()
         requests.post(my_secrets.REST_CRASH_NOTIFY_URL, data=socket.gethostname(), headers=REQUEST_HEADER)
