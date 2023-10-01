@@ -27,14 +27,9 @@ import cv2
 import neopixel
 import numpy as np
 import requests
-import systemd.journal
 from tflite_support.task import audio, core, processor, vision
 
 import my_secrets
-
-# Redirect stdout and stderr to the systemd journal
-sys.stdout = systemd.journal.OutputStream()
-sys.stderr = systemd.journal.OutputStream()
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
