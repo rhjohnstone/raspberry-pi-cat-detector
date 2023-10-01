@@ -20,12 +20,16 @@ OFF = (0, 0, 0)
 
 # Set up the pixels for nighttime
 pixels = neopixel.NeoPixel(LED_STRIP_OUTPUT_PIN, MAX_PIXELS)
+
 GPIO.setwarnings(False)
+
 # Refer to pins by their Broadcom numbers
 GPIO.setmode(GPIO.BCM)
+
 # Configure the light sensor
 GPIO.setup(DARK_INDICATOR_PIN, GPIO.IN)
 
+pixels.fill(OFF)
 while True:
     try:
         if GPIO.input(DARK_INDICATOR_PIN):
