@@ -27,9 +27,14 @@ import cv2
 import neopixel
 import numpy as np
 import requests
+import systemd.journal
 from tflite_support.task import audio, core, processor, vision
 
 import my_secrets
+
+# Redirect stdout and stderr to the systemd journal
+sys.stdout = systemd.journal.OutputStream()
+sys.stderr = systemd.journal.OutputStream()
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -227,7 +232,6 @@ def doorbell(target_object, args):
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(DARK_INDICATOR_PIN, GPIO.IN)
-    pixels.fill(OFF)
 
     base_options = core.BaseOptions(file_name=audio_model, use_coral=enable_edgetpu, num_threads=num_threads)
     classification_options = processor.ClassificationOptions(max_results=max_results, score_threshold=score_threshold)
@@ -245,14 +249,9 @@ def doorbell(target_object, args):
 
     audio_record.start_recording()
 
-    lights_on = False
+    pixels.fill(OFF)
     while True:
         is_dark = GPIO.input(DARK_INDICATOR_PIN)
-
-        if lights_on:
-            print("Turn lights off")
-            pixels.fill(OFF)
-            lights_on = False
 
         now = time.time()
         diff = now - last_inference_time
@@ -276,16 +275,20 @@ def doorbell(target_object, args):
             if is_dark:
                 print("Turn lights on")
                 pixels.fill(ON)
-                lights_on = True
             #
             # Now that we heard the cat, can we see it?
             if look_for('cat', video_model):
-                print("Cat heard and seen")
-                #
-                # Trigger a text message
+                print("Cat heard and seen. Trigger text msg")
                 requests.post(my_secrets.REST_API_URL, headers=REQUEST_HEADER)
+
+                print(f"Pausing for {detection_pause} seconds")
                 time.sleep(detection_pause)
-                print("Pause over. Resuming")
+            else:
+                print("Cannot see a cat.")
+
+            if is_dark:
+                print("Turn lights off")
+                pixels.fill(OFF)
 
 
 def main():

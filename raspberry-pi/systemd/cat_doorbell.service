@@ -10,7 +10,8 @@ Environment="DISPLAY=:0"
 WorkingDirectory=/home/tennis/PycharmProjects/raspberry-pi-cat-doorbell-v2/raspberry-pi
 User=tennis
 Group=tennis
-
+StandardOutput=journal
+StandardError=journal
 Restart=always
 RestartSec=30
 
