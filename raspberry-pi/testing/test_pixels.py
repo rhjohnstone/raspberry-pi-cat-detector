@@ -41,7 +41,7 @@ while True:
             print("light")
         time.sleep(5)
     except KeyboardInterrupt:
-        print("interrupt")
+        print("keyboard interrupt - turn lights off")
         pixels.fill(OFF)
         pixels.deinit()
         sys.exit()
