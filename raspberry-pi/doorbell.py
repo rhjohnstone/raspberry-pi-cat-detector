@@ -55,6 +55,12 @@ _FONT_SIZE = 1
 _FONT_THICKNESS = 1
 _TEXT_COLOR = (0, 0, 255)  # red
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+handler = logging.StreamHandler(stream=sys.stdout)
+logger.addHandler(handler)
+
 
 def get_category_name(detection_result: processor.DetectionResult) -> str:
     """
@@ -217,13 +223,6 @@ def doorbell(target_object, args):
     audio_model = CURRENT_DIR + '/models/' + str(args.audioModel)
     video_model = CURRENT_DIR + '/models/' + str(args.videoModel)
     detection_pause = int(args.pauseAfterDetection)
-
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.INFO)
-
-    # this logs to stdout and I think it is flushed immediately
-    handler = logging.StreamHandler(stream=sys.stdout)
-    logger.addHandler(handler)
 
     max_results = 1
     score_threshold = 0.0
