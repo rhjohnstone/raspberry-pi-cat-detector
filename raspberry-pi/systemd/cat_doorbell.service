@@ -1,6 +1,8 @@
 [Unit]
 Description=Cat Doorbell
 After=network.target
+#
+# In a span of 150 seconds, we can restart up to 3 times. Give up after that
 StartLimitIntervalSec=150
 StartLimitBurst=3
 
@@ -10,6 +12,8 @@ Environment="DISPLAY=:0"
 WorkingDirectory=/home/tennis/PycharmProjects/raspberry-pi-cat-doorbell-v2/raspberry-pi
 User=tennis
 Group=tennis
+#
+# Send stdout/stderr to the journal so we can view it in the logs
 StandardOutput=journal
 StandardError=journal
 Restart=always
