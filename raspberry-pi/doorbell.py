@@ -49,12 +49,6 @@ OFF = (0, 0, 0)
 
 REQUEST_HEADER = {'content-type': 'application/json'}
 
-_MARGIN = 10  # pixels
-_ROW_SIZE = 10  # pixels
-_FONT_SIZE = 1
-_FONT_THICKNESS = 1
-_TEXT_COLOR = (0, 0, 255)  # red
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -90,6 +84,12 @@ def visualize(image: np.ndarray, detection_result: processor.DetectionResult) ->
   Returns:
     Image with bounding boxes.
   """
+    _MARGIN = 10  # pixels
+    _ROW_SIZE = 10  # pixels
+    _FONT_SIZE = 1
+    _FONT_THICKNESS = 1
+    _TEXT_COLOR = (0, 0, 255)  # red
+
     for detection in detection_result.detections:
         # Draw bounding_box
         bbox = detection.bounding_box
