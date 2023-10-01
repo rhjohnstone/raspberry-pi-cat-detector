@@ -15,6 +15,7 @@ sound, and the other by sight.  Here is the example code for the 2 apps:
 
 """
 import argparse
+import logging
 import os
 import socket
 import sys
@@ -168,14 +169,14 @@ def look_for(target_object, model, timeout=45) -> bool:
         category = get_category_name(detection_result)
 
         if category == target_object:
-            print(f'{category}')
+            logger.info(f'{category}')
             found = True
             break
 
         time_hack = int(time.time() - timeout_start)
 
         if time_hack > timeout:
-            print("timeout period reached")
+            logger.info("timeout period reached")
             break
 
         # Draw keypoints and edges on input image
@@ -217,6 +218,17 @@ def doorbell(target_object, args):
     video_model = CURRENT_DIR + '/models/' + str(args.videoModel)
     detection_pause = int(args.pauseAfterDetection)
 
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+
+    # this is just to make the output look nice
+    formatter = logging.Formatter(fmt="%(asctime)s %(name)s.%(levelname)s: %(message)s", datefmt="%Y.%m.%d %H:%M:%S")
+
+    # this logs to stdout and I think it is flushed immediately
+    handler = logging.StreamHandler(stream=sys.stdout)
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
     max_results = 1
     score_threshold = 0.0
     overlapping_factor = 0.5
@@ -245,6 +257,7 @@ def doorbell(target_object, args):
     audio_record.start_recording()
 
     pixels.fill(OFF)
+    logger.info("Starting main loop")
     while True:
         is_dark = GPIO.input(DARK_INDICATOR_PIN)
 
@@ -262,27 +275,27 @@ def doorbell(target_object, args):
         classification = result.classifications[0]
         label_list = [category.category_name for category in classification.categories]
         noise = str(label_list[0]).lower()
-        # print("noise: ", noise)
+        # logger.info("noise: ", noise)
         if noise == target_object:
-            print("noise: ", noise)
+            logger.info("noise: %s", noise)
             #
             # If it is dark, turn LEDs on so the camera can 'see' the cat
             if is_dark:
-                print("Turn lights on")
+                logger.info("Turn lights on")
                 pixels.fill(ON)
             #
             # Now that we heard the cat, can we see it?
             if look_for('cat', video_model):
-                print("Cat heard and seen. Trigger text msg")
+                logger.info("Cat heard and seen. Trigger text msg")
                 requests.post(my_secrets.REST_API_URL, headers=REQUEST_HEADER)
 
-                print(f"Pausing for {detection_pause} seconds")
+                logger.info(f"Pausing for {detection_pause} seconds")
                 time.sleep(detection_pause)
             else:
-                print("Cannot see a cat.")
+                logger.info("Cannot see a cat.")
 
             if is_dark:
-                print("Turn lights off")
+                logger.info("Turn lights off")
                 pixels.fill(OFF)
 
 
@@ -312,6 +325,6 @@ if __name__ == '__main__':
     try:
         main()
     except Exception:
-        print("C R A S H")
-        traceback.print_exc()
+        logger.info("C R A S H")
+        traceback.logger.info_exc()
         requests.post(my_secrets.REST_CRASH_NOTIFY_URL, data=socket.gethostname(), headers=REQUEST_HEADER)
