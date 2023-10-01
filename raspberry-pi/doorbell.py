@@ -271,16 +271,16 @@ def doorbell(target_object, args):
         classification = result.classifications[0]
         label_list = [category.category_name for category in classification.categories]
         noise = str(label_list[0]).lower()
-        # logger.info("noise: ", noise)
+
         if noise == target_object:
-            logger.info("noise: %s", noise)
+            logger.info("Heard %s", noise)
             #
             # If it is dark, turn LEDs on so the camera can 'see' the cat
             if is_dark:
                 logger.info("Turn lights on")
                 pixels.fill(ON)
             #
-            # Now that we heard the cat, can we see it?
+            # Now that we heard the cat, can we see him?
             if look_for('cat', video_model):
                 logger.info("Cat heard and seen. Trigger text msg")
                 requests.post(my_secrets.REST_API_URL, headers=REQUEST_HEADER)
