@@ -44,8 +44,8 @@ DARK_INDICATOR_PIN = 2  # Physical pin 3
 LED_STRIP_OUTPUT_PIN = board.D10  # Physical pin 19
 
 # Pixel color values
-ON = (255, 255, 255)  # White
-OFF = (0, 0, 0)
+WHITE = (255, 255, 255)  # White
+BLACK = (0, 0, 0)
 
 REQUEST_HEADER = {'content-type': 'application/json'}
 
@@ -230,7 +230,7 @@ def doorbell(target_object, args):
     num_threads = 4
     enable_edgetpu = False
 
-    pixels = neopixel.NeoPixel(LED_STRIP_OUTPUT_PIN, MAX_PIXELS)
+    pixels = neopixel.NeoPixel(LED_STRIP_OUTPUT_PIN, MAX_PIXELS, auto_write=False)
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(DARK_INDICATOR_PIN, GPIO.IN)
@@ -251,7 +251,8 @@ def doorbell(target_object, args):
 
     audio_record.start_recording()
 
-    pixels.fill(OFF)
+    pixels.fill(BLACK)
+    pixels.show()
     logger.info("Starting main loop")
     while True:
         is_dark = GPIO.input(DARK_INDICATOR_PIN)
@@ -277,7 +278,8 @@ def doorbell(target_object, args):
             # If it is dark, turn LEDs on so the camera can 'see' the cat
             if is_dark:
                 logger.info("Turn lights on")
-                pixels.fill(ON)
+                pixels.fill(WHITE)
+                pixels.show()
             #
             # Now that we heard the cat, can we see him?
             if look_for('cat', video_model):
@@ -291,7 +293,8 @@ def doorbell(target_object, args):
 
             if is_dark:
                 logger.info("Turn lights off")
-                pixels.fill(OFF)
+                pixels.fill(BLACK)
+                pixels.show()
 
 
 def main():
