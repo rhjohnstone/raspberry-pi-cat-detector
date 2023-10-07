@@ -119,6 +119,9 @@ connect to a male USB-C adapter. Due to space constraints, the RPi USB-C connect
 
 ## Wiring Diagram
 
+![](.README_images/d9c4859a.png)
+
+
 ## Parts List
 
 1. [RPi 4b](https://www.amazon.com/Raspberry-Pi-Computer-Suitable-Workstation/dp/B0899VXM8F/ref=sr_1_6?crid=3M53AFTGRSLTU&keywords=raspberry+pi+4&qid=1696697746&sprefix=raspberry+pi+4+%2Caps%2C122&sr=8-6&ufe=app_do%3Aamzn1.fos.18ed3cb5-28d5-4975-8bc7-93deae8f9840)
