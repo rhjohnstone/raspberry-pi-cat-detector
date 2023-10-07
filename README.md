@@ -26,8 +26,9 @@ Clearly, we needed at Cat Doorbell.
 
 ## Basic Logic
 
-The Doorbell listens for a cat and then looks for it. The Doorbell is always listening, but it doesn't look for a
-cat until it hears meowing. If dark outside, an LED strip will be used to illuminate the process.
+The Doorbell will send me a text alert when the cat wants inside. It will only do that if a cat is heard **and** seen.
+It is always listening, but the Doorbell doesn't look for a cat until it hears meowing. An LED strip will be lit to
+aid the camera if dark outside.
 
 ## Logic Detail
 
@@ -35,16 +36,29 @@ This is essentially a small state machine. The Doorbell listens passively for th
 that sound, it enables a camera. If the on-board light sensor detects darkness, an LED strip will be turned on. For 45
 seconds the Doorbell uses the camera in an attempt to identify a cat. If no cat is identified, the Doorbell goes back
 to passively listening. If dark, the light is then turned off. If a cat is identified during the 45-second window,
-a text message is sent to me. The system then pauses for 2 minutes for me to open the door. If dark, the LED light
-stays on until after the 2-minute pause is over. The Doorbell then goes back to listening.
+a text message is sent to me. The system then pauses for 2 minutes for to prevent triggering a new alarm. If dark,
+the LED light stays on until after the 2-minute pause is over. The Doorbell then goes back to listening.
 
 ## Machine Learning Detail
 
-This is basically a combination of 2 [Tensorflow](https://www.tensorflow.org/) sample applications. One application
-identifies an "object" by sound, and the other by sight. Here is the example code for each:
+The the code in `doorbell.py` is basically a combination of 2 [Tensorflow](https://www.tensorflow.org/) sample
+applications. [One](https://github.com/tensorflow/examples/blob/master/lite/examples/audio_classification/raspberry_pi/classify.py)
+application identifies an "object" by sound, and the [other](https://github.com/tensorflow/examples/blob/master/lite/examples/image_classification/raspberry_pi/classify.py)
+by sight.
 
-1. https://github.com/tensorflow/examples/blob/master/lite/examples/audio_classification/raspberry_pi/classify.py
-2. https://github.com/tensorflow/examples/blob/master/lite/examples/image_classification/raspberry_pi/classify.py
+## Text Messaging
+
+I am a longtime Amazon Web Services (AWS) user. In `doorbell.py`, I use `requests.post()` to initiate a message. It is
+a POST message to a REST API. The REST definition is an API Gateway on AWS. The API Gateway passes the POST information
+to an AWS Lambda function (see `aws-lambda/cat-doorbell-lambda.py` in this repo for the source). The Lambda invokes
+a call to a Simple Notification Service (SNS) topic. That topic is associated with a particular phone number. A message
+from the Lambda function is sent to that phone number. Make sense?
+
+Don't worry if it does not. AWS is **not** a trivial subject. I use AWS because I'm used to it. But you don't have to.
+
+There is an alternative. Look at [pushover](https://pushover.net/). They support REST APIs (with samples) and
+they are inexpensive. You can send your messages using their API. Simply use their REST URL in my `requests.post()`
+invocation and you should be fine.
 
 ## Geeky Hardware Details
 
