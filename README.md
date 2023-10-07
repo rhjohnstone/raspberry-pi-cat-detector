@@ -184,6 +184,6 @@ be affixed*
 *Closeup of the RPi power connection with the right-angle USB-C adapter*
 
 ![](.README_images/a03a81fb.png)
-*Closeup of the power cable entering the junction box through the glad*
+*Closeup of the power cable entering the junction box through the gland*
 
 
