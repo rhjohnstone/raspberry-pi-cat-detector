@@ -8,19 +8,19 @@ someone else might find it useful. For example, this could easily be adapted for
 ## The Problem(s)
 
 We have a cat that likes to go out on our enclosed patio. When he is ready to come in, he will stand next to the door
-and yell (meow). We then open the door and let him in. No problem.
+and meow (yell). We open the door and let him in. No problem.
 
 But, he frequently stays out long enough for us to forget. More than once he was outside yelling and we were oblivious.
 That's problem #1.
 
 It is also complicated by the fact that he likes to yell anyway. He will lay on the ground wallowing and yelling just
-for the fun of it. That causes "false alarms". We would think he wants in and all he really would be doing is enjoying
-life. Frustrating (although I think it amuses the cat). That's problem #2.
+for the fun of it. That causes "false alarms". We would think he wants in, but all he was really doing is enjoying
+life. Frustrating to us (but I think it secretly amuses the cat). That's problem #2.
 
 Somehow, we needed a device that would:
 
-- Alert us when he wanted inside (fix Problem #1)
-- Make sure he wanted inside (fix Problem #2)
+- Alert us when the cat wanted inside (fix Problem #1)
+- Ensure that was **really** his intention (fix Problem #2)
 
 Clearly, we needed at Cat Doorbell.
 
@@ -38,9 +38,18 @@ to passively listening. If dark, the light is then turned off. If a cat is ident
 a text message is sent to me. The system then pauses for 2 minutes for me to open the door. If dark, the LED light
 stays on until after the 2-minute pause is over. The Doorbell then goes back to listening.
 
+## Machine Learning Detail
+
+This is basically a combination of 2 [Tensorflow](https://www.tensorflow.org/) sample applications. One application
+identifies an "object" by sound, and the other by sight. Here is the example code for each:
+
+1. https://github.com/tensorflow/examples/blob/master/lite/examples/audio_classification/raspberry_pi/classify.py
+2. https://github.com/tensorflow/examples/blob/master/lite/examples/image_classification/raspberry_pi/classify.py
+
 ## Geeky Hardware Details
 
-(See the parts list and pictures below for all the components I mention)
+Here are some in-depth discussions of the Doorbell hardware setup. See the parts list and pictures below for all the
+components I covered.
 
 ### The Raspberry Pi
 The heart of the Doorbell is a Raspberry Pi 4B. It sits in a weatherproof junction box next to our patio door. The only
@@ -52,23 +61,24 @@ underside of the door. These allow the microphone to "hear".
 
 ### Wi-Fi
 
-The RPi has Wi-Fi enabled. It is connected to our home network.
+The Doorbell RPi has Wi-Fi enabled. It is connected to our home network.
 
 ### Temperature Precautions
-Although the Doorbell is never in direct sunlight, I took some precautions for the Summer heat (I live in Tennessee).
+
+Although the Doorbell is never in direct sunlight, I took some precautions for the Summer heat (we live in Tennessee).
 Attached to the RPi motherboard is a special heatsink/fan combination to help regulate temperature. It uses physical
 pins #4 (power), #6 (ground) and #8 (GPIO #14). Fan control has been enabled via `raspi-config`.
 
 ### Light Sensor
 Next to the RPi inside the junction box, is the light sensor. Technically, it is a photo resistor, but I'll refer to it
 as "light sensor"). It is connected to physical pins #1 (for 3.3v power), #3 (GPIO #2), and #9 (ground). The light
-sensor is encased in a small project box with holes dremeled in it to allow for connections and sensor exposure. The
+sensor is encased in a tiny project box with holes dremeled in it to allow for connections and sensor exposure. The
 small box containing the sensor is secured to the inside of the main junction box by strips of magnetic tape
 (see pics below).
 
 ### USB Camera and Microphone
 We use USB for our camera and microphone. Space is tight, so the USB connection is via a right-angle adapter. Here we
-connect a little board that is a combination camera/microphone. The board is mounted on the lid of little project box.
+connect a little board that is a combination camera/microphone. The board is mounted on the lid of a little project box.
 The project box fits the width of the junction box exactly. The camera/mic board is secured to the lid with 3 nylon
 screws. Coiled inside the project box is the excess USB cable. On the sides of the little box are small dremeled
 apertures for cable access.
