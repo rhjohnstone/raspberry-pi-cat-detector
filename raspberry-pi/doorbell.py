@@ -44,8 +44,8 @@ DARK_INDICATOR_PIN = 2  # Physical pin 3
 LED_STRIP_OUTPUT_PIN = board.D10  # Physical pin 19
 
 # Pixel color values
-WHITE = (255, 255, 255)  # White
-BLACK = (0, 0, 0)
+ON = (255, 255, 255)  # WHITE
+OFF = (0, 0, 0)
 
 REQUEST_HEADER = {'content-type': 'application/json'}
 
@@ -251,7 +251,7 @@ def doorbell(target_object, args):
 
     audio_record.start_recording()
 
-    pixels.fill(BLACK)
+    pixels.fill(OFF)
     pixels.show()
     logger.info("Starting main loop")
     while True:
@@ -278,7 +278,7 @@ def doorbell(target_object, args):
             # If it is dark, turn LEDs on so the camera can 'see' the cat
             if is_dark:
                 logger.info("Turn lights on")
-                pixels.fill(WHITE)
+                pixels.fill(ON)
                 pixels.show()
             #
             # Now that we heard the cat, can we see him?
@@ -293,7 +293,7 @@ def doorbell(target_object, args):
 
             if is_dark:
                 logger.info("Turn lights off")
-                pixels.fill(BLACK)
+                pixels.fill(OFF)
                 pixels.show()
 
 
