@@ -48,13 +48,16 @@ by sight.
 
 ## Text Messaging
 
-I am a longtime Amazon Web Services (AWS) user. In `doorbell.py`, I use `requests.post()` to initiate a message. It is
-a POST message to a REST API. The REST definition is an API Gateway on AWS. The API Gateway passes the POST information
-to an AWS Lambda function (see `aws-lambda/cat-doorbell-lambda.py` in this repo for the source). The Lambda invokes
-a call to a Simple Notification Service (SNS) topic. That topic is associated with a particular phone number. A message
-from the Lambda function is sent to that phone number. Make sense?
+I am a longtime Amazon Web Services (AWS) user. I used their facilities to generate SMS text messages in `doorbell.py`.
+I use`requests.post()` to initiate the message.
 
-Don't worry if it does not. AWS is **not** a trivial subject. I use AWS because I'm used to it. But you don't have to.
+Briefly, here is how it works on AWS. It is a POST message to a REST API URL. The REST definition is an API Gateway on
+AWS. The API Gateway passes the POST information to an AWS Lambda function (see `aws-lambda/cat-doorbell-lambda.py`
+in this repo for the source). The Lambda invokes a call to a Simple Notification Service (SNS) topic. That topic is
+associated with a particular phone number. A message from the Lambda function is sent to that phone number. Make sense?
+
+Do not panic if that does not make sense. AWS is **not** a trivial subject. I use AWS because I'm used to it. You
+don't have to.
 
 There is an alternative. Look at [pushover](https://pushover.net/). They support REST APIs (with samples) and
 they are inexpensive. You can send your messages using their API. Simply use their REST URL in my `requests.post()`
@@ -108,13 +111,13 @@ to LED strip's ground connector.
 
 ### Power Cable
 
-Like I mentioned before, the only physical connection to the RPi from the outside is power. There are a few things
+Like I mentioned before, the only physical outside connection to the RPi is power. There are a few things
 to mention concerning it. To begin with, inside the house, the cable is attached to the actual power supply using a
 USB-C female adapter. The adapter is attached to the cable with wire joiners. At the Doorbell end, the cable enters
 the junction box through a weatherproof cable "glad" (icky name). Inside the junction box wire joiners are used to
 connect to a male USB-C adapter. Due to space constraints, the RPi USB-C connection goes via a right-angle adapter.
 
-## Fritzing Diagram
+## Wiring Diagram
 
 ## Parts List
 
