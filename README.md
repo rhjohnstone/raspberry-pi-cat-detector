@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is The Cat Doorbell (version 2). I had lots of fun designing and building it. I am writing this in case
+This is the Cat Doorbell (version 2). I had lots of fun designing and building it. I am writing this in case
 someone else might find it useful. For example, this could easily be adapted for dogs.
 
 ![](.README_images/95d70aec.png)
@@ -24,7 +24,7 @@ Somehow, we needed a device that would:
 - Alert us when the cat wanted inside (fix Problem #1)
 - Ensure that was **really** his intention (fix Problem #2)
 
-Clearly, we needed at Cat Doorbell.
+Clearly, we needed a Cat Doorbell.
 
 ## Basic Logic
 
@@ -68,7 +68,7 @@ invocation and you should be fine.
 ## Geeky Hardware Details
 
 Here are some in-depth discussions of the Doorbell hardware setup. See the parts list and pictures below for all the
-components I covered.
+components I cover.
 
 ### The Raspberry Pi
 The heart of the Doorbell is a Raspberry Pi 4B. It sits in a weatherproof junction box next to our patio door. The only
@@ -80,7 +80,7 @@ underside of the door. These allow the microphone to "hear".
 
 ### Wi-Fi
 
-The Doorbell RPi has Wi-Fi enabled. It is connected to our home network.
+The Doorbell RPi has Wi-Fi enabled. It is connected to our home network. All communication is via Wi-Fi.
 
 ### Temperature Precautions
 
@@ -92,8 +92,7 @@ pins #4 (power), #6 (ground) and #8 (GPIO #14). Fan control has been enabled via
 Next to the RPi inside the junction box, is the light sensor. Technically, it is a photo resistor, but I'll refer to it
 as "light sensor"). It is connected to physical pins #1 (for 3.3v power), #3 (GPIO #2), and #9 (ground). The light
 sensor is encased in a tiny project box with holes dremeled in it to allow for connections and sensor exposure. The
-small box containing the sensor is secured to the inside of the main junction box by strips of magnetic tape
-(see pics below).
+box containing the sensor is secured to the inside of the main junction box by strips of magnetic tape (see pics below).
 
 ### USB Camera and Microphone
 We use USB for our camera and microphone. Space is tight, so the USB connection is via a right-angle adapter. Here we
