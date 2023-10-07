@@ -2,10 +2,12 @@
 
 ## Overview
 
-This is The Cat Doorbell (version 2.0). I had lots of fun designing and building it. I am writing this in case
+This is The Cat Doorbell (version 2). I had lots of fun designing and building it. I am writing this in case
 someone else might find it useful. For example, this could easily be adapted for dogs.
 
-## The Problem(s)
+![](.README_images/95d70aec.png)
+
+## The Problem(s) It Fixes
 
 We have a cat that likes to go out on our enclosed patio. When he is ready to come in, he will stand next to the door
 and meow (yell). We open the door and let him in. No problem.
@@ -206,5 +208,4 @@ be affixed*
 
 ![](.README_images/a03a81fb.png)
 *Closeup of the power cable entering the junction box through the gland*
-
 
