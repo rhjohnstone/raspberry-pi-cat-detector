@@ -42,30 +42,38 @@ stays on until after the 2-minute pause is over. The Doorbell then goes back to 
 
 (See the parts list and pictures below for all the components I mention)
 
+### The Raspberry Pi
 The heart of the Doorbell is a Raspberry Pi 4B. It sits in a weatherproof junction box next to our patio door. The only
 physical connection is a power cable run from inside the house.
 
+### Junction Box Door
 The junction box has a clear plexiglass door so the camera can "see". There are also 4 tiny holes drilled into the
 underside of the door. These allow the microphone to "hear".
 
+### Wi-Fi
+
 The RPi has Wi-Fi enabled. It is connected to our home network.
 
+### Temperature Precautions
 Although the Doorbell is never in direct sunlight, I took some precautions for the Summer heat (I live in Tennessee).
 Attached to the RPi motherboard is a special heatsink/fan combination to help regulate temperature. It uses physical
 pins #4 (power), #6 (ground) and #8 (GPIO #14). Fan control has been enabled via `raspi-config`.
 
+### Light Sensor
 Next to the RPi inside the junction box, is the light sensor. Technically, it is a photo resistor, but I'll refer to it
 as "light sensor"). It is connected to physical pins #1 (for 3.3v power), #3 (GPIO #2), and #9 (ground). The light
 sensor is encased in a small project box with holes dremeled in it to allow for connections and sensor exposure. The
 small box containing the sensor is secured to the inside of the main junction box by strips of magnetic tape
 (see pics below).
 
+### USB Camera and Microphone
 We use USB for our camera and microphone. Space is tight, so the USB connection is via a right-angle adapter. Here we
 connect a little board that is a combination camera/microphone. The board is mounted on the lid of little project box.
 The project box fits the width of the junction box exactly. The camera/mic board is secured to the lid with 3 nylon
 screws. Coiled inside the project box is the excess USB cable. On the sides of the little box are small dremeled
 apertures for cable access.
 
+### LED Strip
 Also mounted on the project box I just mentioned is an LED light strip. The strip itself is encased in a small strip of
 aluminum trough which is secured to the project box lid with a couple Nylon screws and bolts. The actual LED strip
 itself is secured inside the trough with double-sided tape. Snapped on top of the aluminum trough is a light diffuser
@@ -73,6 +81,8 @@ itself is secured inside the trough with double-sided tape. Snapped on top of th
 attached to another modular connector which is directly attached to pins on the RPi. The physical pin used to control
 the LED strip #19 (GPIO 10). The strip is powered by physical pin #2 (5V power). Physical pin #14 (ground) is attached
 to LED strip's ground connector.
+
+### Power Cable
 
 Like I mentioned before, the only physical connection to the RPi from the outside is power. There are a few things
 to mention concerning it. To begin with, inside the house, the cable is attached to the actual power supply using a
