@@ -100,20 +100,18 @@ USB-C female adapter. The adapter is attached to the cable with wire joiners. At
 the junction box through a weatherproof cable "glad" (icky name). Inside the junction box wire joiners are used to
 connect to a male USB-C adapter. Due to space constraints, the RPi USB-C connection goes via a right-angle adapter.
 
-## Wiring
-
 ## Fritzing Diagram
 
 ## Parts List
 
-1. RPi 4b
+1. [RPi 4b](https://www.amazon.com/Raspberry-Pi-Computer-Suitable-Workstation/dp/B0899VXM8F/ref=sr_1_6?crid=3M53AFTGRSLTU&keywords=raspberry+pi+4&qid=1696697746&sprefix=raspberry+pi+4+%2Caps%2C122&sr=8-6&ufe=app_do%3Aamzn1.fos.18ed3cb5-28d5-4975-8bc7-93deae8f9840)
 2. [RPi Heat Sink and Fan Adapter](https://www.amazon.com/gp/product/B091L1XKL6/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
-3. Junction Box
-4. Project Box
+3. [Junction Box](https://www.amazon.com/gp/product/B0BZR4VPRF/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&th=1)
+4. [Project Box](https://www.amazon.com/gp/product/B07Q14K8YT/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&th=1)
 5. [Dremel Tool](https://www.amazon.com/Dremel-7350-5-3-6v-Rotary-Tool/dp/B08YKH9JRH/ref=sr_1_9?crid=294P32W1GG817&keywords=dremel%2Btool%2Bkit&qid=1696687687&sprefix=dremel%2Caps%2C147&sr=8-9&th=1)
 6. [Dremel Bits](https://www.amazon.com/Mars-Rock-Carbide-Compatible-Accessories-Attachments/dp/B0B5TWSRCV/ref=sr_1_10?crid=294P32W1GG817&keywords=dremel%2Btool%2Bkit&qid=1696687809&sprefix=dremel%2Caps%2C147&sr=8-10&th=1)
-7. Breadboard Jumper Wires
-8. Wire Joiners
+7. [Breadboard Jumper Wires](https://www.amazon.com/Breadboard-Compatible-Arduino-Projects-Raspberry/dp/B0BTT31CBC/ref=sr_1_1_sspa?crid=3C472YJ0GXP2P&keywords=breadboard%2Bjumper%2Bwires&qid=1696697823&sprefix=breadboard%2Bj%2Caps%2C122&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1)
+8. [Wire Joiners](https://www.amazon.com/gp/aw/d/B089D79CPF/?_encoding=UTF8&pd_rd_plhdr=t&aaxitk=040da90ea460846b0b1ae8971d4b2b75&hsa_cr_id=2900520900001&qid=1696697866&sr=1-3-9e67e56a-6f64-441f-a281-df67fc737124&ref_=sbx_be_s_sparkle_lsi4d_asin_2_title&pd_rd_w=2xrRf&content-id=amzn1.sym.cd95889f-432f-43a7-8ec8-833616493f4a%3Aamzn1.sym.cd95889f-432f-43a7-8ec8-833616493f4a&pf_rd_p=cd95889f-432f-43a7-8ec8-833616493f4a&pf_rd_r=AC000Z7G7200YE2AT2MW&pd_rd_wg=GSU3T&pd_rd_r=6632e09c-baca-43bc-83b5-cbe161e6444a&th=1)
 9. Wire Stripper
 10. Mini Screwdriver Kit
 11. Drill
@@ -138,9 +136,54 @@ connect to a male USB-C adapter. Due to space constraints, the RPi USB-C connect
 30. Magnetic Tape
 31. Wood Screws
 32. Small Project Box
+33. Shrink Tubing
 
 ## Pictures 
 
+![](.README_images/07866804.png)
+*The Doorbell mounted next to our patio door*
 
+![](.README_images/45df96da.png)
+*The cable-to-male-USB-C-adapter connection inside the house*
+
+![](.README_images/a463a9e0.png)
+*The USB-C adapter connected to the main power supply in the house*
+
+![](.README_images/db7000c4.png)
+*The Doorbell with the plexiglass door open*
+
+![](.README_images/ba5d113d.png)
+*The small project box lifted out of the Doorbell. Note that both connections to the RPi are modular, so the whole
+unit can be disconnected and lifted out of the junction box*
+
+![](.README_images/7e5cf6b2.png)
+*The LEDs and cam/mic assembly*
+
+![](.README_images/150f0a95.png)
+*Closeup of LED and cam/mic assembly. Note the nylon screws holding the board in place*
+
+![](.README_images/23f0611a.png)
+*Closeup of the back of the lid for the project box. On the other side of this lid is the LED and cam/mic board*
+
+![](.README_images/42d0a3bf.png)
+*Inside the project box where we coil the excess USB cable. Note the dremeled apertures at the top and bottom to
+allow cable access*
+
+![](.README_images/0d5618fc.png)
+*The junction box without the cam/mic/LED assembly in place. Note the right-angle adapters for RPi power and USB*
+
+![](.README_images/787349e7.png)
+*The light sensor encased in a tiny project box. The hole on top is to access the sensitivity adjustment. Note the
+magnetic tape on top*
+
+![](.README_images/0a9d2720.png)
+*Looking up and to the inside left of the open junction box. Magnetic tape is installed where light sensor's box will
+be affixed*
+
+![](.README_images/cb96c43c.png)
+*Closeup of the RPi power connection with the right-angle USB-C adapter*
+
+![](.README_images/a03a81fb.png)
+*Closeup of the power cable entering the junction box through the glad*
 
 
