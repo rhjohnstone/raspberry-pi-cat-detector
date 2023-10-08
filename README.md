@@ -57,7 +57,7 @@ This is essentially a small state machine. The Doorbell listens passively for th
 that sound, it enables a camera. If the on-board light sensor detects darkness, an LED strip will be turned on. For 45
 seconds the Doorbell uses the camera in an attempt to identify a cat. If no cat is identified, the Doorbell goes back
 to passively listening. If dark, the light is then turned off. If a cat is identified during the 45-second window,
-a text message is sent to me. The system then pauses for 2 minutes for to prevent triggering a new alarm. If dark,
+a text message is sent to me. The system then pauses for 2 minutes to prevent triggering a new alarm. If dark,
 the LED light stays on until after the 2-minute pause is over. The Doorbell then goes back to listening.
 
 ## Machine Learning Detail
