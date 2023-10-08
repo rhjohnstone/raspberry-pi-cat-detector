@@ -1,5 +1,3 @@
-# Table of Contents
-
 - [Table of Contents](#table-of-contents)
     - [Overview](#overview)
     - [The Problem(s) It Fixes](#the-problem(s)-it-fixes)
