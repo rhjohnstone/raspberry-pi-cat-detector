@@ -1,5 +1,18 @@
 # Table of Contents
 
+- [Table of Contents](#table-of-contents)
+    - [Overview](#overview)
+    - [The Problem(s) It Fixes](#the-problem(s)-it-fixes)
+    - [Doorbell Version 1](#doorbell-version-1)
+    - [Basic Logic](#basic-logic)
+    - [Logic Detail](#logic-detail)
+    - [Machine Learning Detail](#machine-learning-detail)
+    - [Text Messaging](#text-messaging)
+    - [Geeky Hardware Details](#geeky-hardware-details)
+    - [Wiring Diagram](#wiring-diagram)
+    - [Parts List](#parts-list)
+    - [Pictures ](#pictures-)
+
 ## Overview
 
 This is the Cat Doorbell (version 2). I had lots of fun designing and building it. I am writing this in case
