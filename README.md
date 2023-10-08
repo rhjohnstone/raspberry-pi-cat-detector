@@ -14,7 +14,7 @@
 ## Overview
 
 This is the Cat Doorbell (version 2). Its a Raspberry Pi-based device that listens for, then looks for, a cat when
-it wants to come in the house.
+it wants to come in the house. If listen and look are successful, a text alert is sent.
 
 I had lots of fun designing and building it. I am writing this in case someone else might find it useful. For example,
 it could easily be adapted for dogs.
