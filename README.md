@@ -10,7 +10,7 @@
     - [Text Messaging](#text-messaging)
     - [Geeky Hardware Details](#geeky-hardware-details)
     - [Wiring Diagram](#wiring-diagram)
-    - [Pictures ](#pictures-)
+  - [Pictures](#pictures)
     - [Parts List](#parts-list)
    
 ## Overview
