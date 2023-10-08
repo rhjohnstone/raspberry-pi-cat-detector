@@ -15,8 +15,11 @@
 
 ## Overview
 
-This is the Cat Doorbell (version 2). I had lots of fun designing and building it. I am writing this in case
-someone else might find it useful. For example, this could easily be adapted for dogs.
+This is the Cat Doorbell (version 2). Its a Raspberry Pi-based device that listens for, then looks for, a cat when
+it wants to come in the house.
+
+I had lots of fun designing and building it. I am writing this in case someone else might find it useful. For example,
+it could easily be adapted for dogs.
 
 ![](.README_images/95d70aec.png)
 
