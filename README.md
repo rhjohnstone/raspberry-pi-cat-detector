@@ -26,6 +26,11 @@ Somehow, we needed a device that would:
 
 Clearly, we needed a Cat Doorbell.
 
+## Doorbell Version 1
+
+What about version 1? Well, a year or so ago, I built a Doorbell that worked using sound alone. It worked great except
+we kept getting false alarms (see problem #2 above). Hence version 2.
+
 ## Basic Logic
 
 The Doorbell will send me a text alert when the cat wants inside. It will only do that if a cat is heard **and** seen.
