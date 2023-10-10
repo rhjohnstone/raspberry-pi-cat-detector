@@ -189,6 +189,9 @@ be affixed*
 ![](.README_images/a03a81fb.png)
 *Closeup of the power cable entering the junction box through the gland*
 
+![](.README_images/d971fd4b.png)
+*The doorbell at night with the LED strip illuminated*
+
 
 
 ## Parts List
