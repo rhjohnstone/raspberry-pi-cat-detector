@@ -134,7 +134,7 @@ to LED strip's ground connector.
 Like I mentioned before, the only physical outside connection to the RPi is power. There are a few things
 to mention concerning it. To begin with, inside the house, the cable is attached to the actual power supply using a
 USB-C female adapter. The adapter is attached to the cable with wire joiners. At the Doorbell end, the cable enters
-the junction box through a weatherproof cable "glad" (icky name). Inside the junction box wire joiners are used to
+the junction box through a weatherproof cable "gland" (icky name). Inside the junction box wire joiners are used to
 connect to a male USB-C adapter. Due to space constraints, the RPi USB-C connection goes via a right-angle adapter.
 
 ## Wiring Diagram
