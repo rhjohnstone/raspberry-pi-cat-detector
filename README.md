@@ -227,7 +227,7 @@ be affixed*
 29. [Magnetic Tape](https://www.amazon.com/gp/product/B081CZ7V1V/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
 30. [Wood Screws](https://www.amazon.com/Wood-Screws-Stainless-Adjustable-Countersink/dp/B08RDHCM2Q/ref=sr_1_1_sspa?crid=27RU6LMOY4HUR&keywords=wood+screws+1+inch&qid=1696705865&sprefix=wood+screws%2Caps%2C111&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1)
 31. [Tiny Project Box](https://www.amazon.com/gp/product/B07F3Q784X/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&th=1)
-32. [Shrink Tubing](https://www.amazon.com/gp/product/B07WWWPR2X/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
-33. [Soldering Iron](https://www.amazon.com/gp/product/B07RVMZNYR/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&th=1)
+32. [Shrink Tubing](https://www.amazon.com/gp/product/B07WWWPR2X/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)  (This is for the wire to LED strip connection)
+33. [Soldering Iron](https://www.amazon.com/gp/product/B07RVMZNYR/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&th=1) (To solder wires to the LED strip)
 34. Solder/FLux (generally comes w/the soldering iron)
 
