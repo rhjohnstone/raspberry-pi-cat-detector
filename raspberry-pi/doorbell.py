@@ -290,7 +290,7 @@ def doorbell(target_object, args):
                 logger.info(f"Pausing for {detection_pause} seconds")
                 time.sleep(detection_pause)
             else:
-                logger.info("Cannot see a cat.")
+                logger.info("Could not see cat.")
 
             if is_dark:
                 logger.info("Turn lights off")
