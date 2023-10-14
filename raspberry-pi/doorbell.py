@@ -15,6 +15,7 @@ sound, and the other by sight.  Here is the example code for the 2 apps:
 
 """
 import argparse
+import datetime
 import logging
 import os
 import socket
@@ -129,22 +130,11 @@ def look_for(target_object, model, timeout=45) -> bool:
     num_threads = 4
 
     found = False
-    # Variables to calculate FPS
-    counter, fps = 0, 0
-    start_time = time.time()
 
     # Start capturing video input from the camera
     cap = cv2.VideoCapture(camera_id)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
-
-    # Visualization parameters
-    row_size = 20  # pixels
-    left_margin = 24  # pixels
-    text_color = (0, 0, 255)  # red
-    font_size = 1
-    font_thickness = 1
-    fps_avg_frame_count = 10
 
     # Initialize the object detection model
     base_options = core.BaseOptions(file_name=model, use_coral=False, num_threads=num_threads)
@@ -160,7 +150,6 @@ def look_for(target_object, model, timeout=45) -> bool:
                 'ERROR: Unable to read from webcam. Please verify your webcam settings.'
             )
 
-        counter += 1
         image = cv2.flip(image, 1)
 
         # Convert the image from BGR to RGB as required by the TFLite model.
@@ -172,6 +161,11 @@ def look_for(target_object, model, timeout=45) -> bool:
         # Run object detection estimation using the model.
         detection_result = detector.detect(input_tensor)
 
+        # Draw keypoints and edges on input image
+        image = visualize(image, detection_result)
+
+        cv2.imshow('object_detector', image)
+
         category = get_category_name(detection_result)
 
         if category == target_object:
@@ -182,25 +176,11 @@ def look_for(target_object, model, timeout=45) -> bool:
         time_hack = int(time.time() - timeout_start)
 
         if time_hack > timeout:
-            logger.info("timeout period reached")
+            timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S-%f")[:-3]
+            outfile = f"/tmp/{timestamp}.jpg"
+            cv2.imwrite(outfile, image)
+            logger.info("Timeout period reached. Diagnostic image saved")
             break
-
-        # Draw keypoints and edges on input image
-        image = visualize(image, detection_result)
-
-        # Calculate the FPS
-        if counter % fps_avg_frame_count == 0:
-            end_time = time.time()
-            fps = fps_avg_frame_count / (end_time - start_time)
-            start_time = time.time()
-
-        # Show the FPS
-        fps_text = 'FPS = {:.1f}'.format(fps)
-        text_location = (left_margin, row_size)
-        cv2.putText(image, fps_text, text_location, cv2.FONT_HERSHEY_PLAIN,
-                    font_size, text_color, font_thickness)
-
-        cv2.imshow('object_detector', image)
 
     cap.release()
     cv2.destroyAllWindows()
