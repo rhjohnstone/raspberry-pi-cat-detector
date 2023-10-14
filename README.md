@@ -82,7 +82,9 @@ don't have to.
 
 There is an alternative. Look at [pushover](https://pushover.net/). They support REST APIs (with samples) and
 they are inexpensive. You can send your messages using their API. Simply use their REST URL in my `requests.post()`
-invocation and you should be fine.
+invocation and you should be fine. 
+
+Many thanks to my friend [sgfry](https://github.com/sgfry) for suggesting pushover. 
 
 ## Geeky Hardware Details
 
