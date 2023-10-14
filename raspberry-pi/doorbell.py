@@ -168,8 +168,10 @@ def look_for(target_object, model, timeout=45) -> bool:
 
         category = get_category_name(detection_result)
 
+        logger.info(f'Detected category: {category}')
+
         if category == target_object:
-            logger.info(f'{category}')
+            logger.info(f"Category {category} == Target {target_object}.")
             found = True
             break
 
