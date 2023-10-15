@@ -82,7 +82,9 @@ don't have to.
 
 There is an alternative. Look at [pushover](https://pushover.net/). They support REST APIs (with samples) and
 they are inexpensive. You can send your messages using their API. Simply use their REST URL in my `requests.post()`
-invocation and you should be fine.
+invocation and you should be fine. 
+
+Many thanks to my friend [sgfry](https://github.com/sgfry) for suggesting pushover. 
 
 ## Geeky Hardware Details
 
@@ -114,7 +116,7 @@ sensor is encased in a tiny project box with holes dremeled in it to allow for c
 box containing the sensor is secured to the inside of the main junction box by strips of magnetic tape (see pics below).
 
 ### USB Camera and Microphone
-We use USB for our camera and microphone. Space is tight, so the USB connection is via a right-angle adapter. Here we
+I use USB for the camera and microphone. Space is tight, so the USB connection is via a right-angle adapter. Here we
 connect a little board that is a combination camera/microphone. The board is mounted on the lid of a little project box.
 The project box fits the width of the junction box exactly. The camera/mic board is secured to the lid with 3 nylon
 screws. Coiled inside the project box is the excess USB cable. On the sides of the little box are small dremeled
