@@ -255,6 +255,8 @@ def doorbell(target_object, args):
         label_list = [category.category_name for category in classification.categories]
         noise = str(label_list[0]).lower()
 
+        print(f"noise: {noise}")
+
         if noise == target_object:
             logger.info("Heard %s", noise)
             #
@@ -271,6 +273,7 @@ def doorbell(target_object, args):
 
                 logger.info(f"Pausing for {detection_pause} seconds")
                 time.sleep(detection_pause)
+                logger.info("Pause over. Continuing")
             else:
                 logger.info("Could not see cat.")
 
