@@ -260,7 +260,6 @@ def doorbell(target_object, args):
             lights.turn_off()
 
 
-
 def main():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
