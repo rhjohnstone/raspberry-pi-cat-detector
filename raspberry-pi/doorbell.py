@@ -21,7 +21,6 @@ import os
 import socket
 import sys
 import time
-import traceback
 
 import RPi.GPIO as GPIO
 import board
@@ -308,7 +307,6 @@ def main():
 if __name__ == '__main__':
     try:
         main()
-    except Exception:
-        print("C R A S H")
-        traceback.logger.info_exc()
+    except Exception as exc:
+        logger.exception("-C R A S H-")
         requests.post(my_secrets.REST_CRASH_NOTIFY_URL, data=socket.gethostname(), headers=REQUEST_HEADER)
