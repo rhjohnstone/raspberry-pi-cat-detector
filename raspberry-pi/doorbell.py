@@ -22,30 +22,22 @@ import socket
 import sys
 import time
 
-import RPi.GPIO as GPIO
 import board
 import cv2
-import neopixel
 import numpy as np
 import requests
 from tflite_support.task import audio, core, processor, vision
 
 import my_secrets
+from lights import DoorBellLightsController
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# How many pixels are in the WS2812b strip?
-MAX_PIXELS = 4
 
 # What GPIO pin is associated with a condition?
 DARK_INDICATOR_PIN = 2  # Physical pin 3
 
 # Use the board internal definition for this
 LED_STRIP_OUTPUT_PIN = board.D10  # Physical pin 19
-
-# Pixel color values
-ON = (255, 255, 255)  # WHITE
-OFF = (0, 0, 0)
 
 REQUEST_HEADER = {'content-type': 'application/json'}
 
@@ -211,11 +203,6 @@ def doorbell(target_object, args):
     num_threads = 4
     enable_edgetpu = False
 
-    pixels = neopixel.NeoPixel(LED_STRIP_OUTPUT_PIN, MAX_PIXELS, auto_write=False)
-    GPIO.setwarnings(False)
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(DARK_INDICATOR_PIN, GPIO.IN)
-
     base_options = core.BaseOptions(file_name=audio_model, use_coral=enable_edgetpu, num_threads=num_threads)
     classification_options = processor.ClassificationOptions(max_results=max_results, score_threshold=score_threshold)
     options = audio.AudioClassifierOptions(base_options=base_options, classification_options=classification_options)
@@ -228,17 +215,14 @@ def doorbell(target_object, args):
     input_length_in_second = float(len(tensor_audio.buffer)) / tensor_audio.format.sample_rate
     interval_between_inference = input_length_in_second * (1 - overlapping_factor)
     pause_time = interval_between_inference * 0.1
-    logger.info(f"Pause time will be: {str(pause_time)}")
     last_inference_time = time.time()
 
     audio_record.start_recording()
 
-    pixels.fill(OFF)
-    pixels.show()
+    lights = DoorBellLightsController(DARK_INDICATOR_PIN, LED_STRIP_OUTPUT_PIN, logger=logger)
+
     logger.info("Starting main loop")
     while True:
-        is_dark = GPIO.input(DARK_INDICATOR_PIN)
-
         now = time.time()
         diff = now - last_inference_time
         if diff < interval_between_inference:
@@ -258,12 +242,9 @@ def doorbell(target_object, args):
 
         if noise == target_object:
             logger.info("Heard %s", noise)
-            #
+
             # If it is dark, turn LEDs on so the camera can 'see' the cat
-            if is_dark:
-                logger.info("Turn lights on")
-                pixels.fill(ON)
-                pixels.show()
+            lights.turn_on()
             #
             # Now that we heard the cat, can we see him?
             if look_for('cat', video_model):
@@ -276,10 +257,8 @@ def doorbell(target_object, args):
             else:
                 logger.info("Could not see cat.")
 
-            if is_dark:
-                logger.info("Turn lights off")
-                pixels.fill(OFF)
-                pixels.show()
+            lights.turn_off()
+
 
 
 def main():
